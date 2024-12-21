@@ -77,47 +77,47 @@ class SecondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Account Management'),
+        title: const Text('Account Managementtttt'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-                onPressed: (){
-                  Navigator.pop(context);
-                },
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: const Text('Return to 1st page'),
             ),
-        const SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const RegisterPage()),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            //backgroundColor: Color(16777215),
-          ),
-          child: const Text('Register'),
-          ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: (){
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RegisterPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                  //backgroundColor: Color(16777215),
+                  ),
+              child: const Text('Register'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               },
               style: ElevatedButton.styleFrom(
-                //backgroundColor: Color(8),
-              ),
+                  //backgroundColor: Color(8),
+                  ),
               child: const Text('Login'),
             ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 }
