@@ -16,39 +16,49 @@ class ProductsListScreen extends StatelessWidget {
         title: Text('Product List'),
       ),
       body: ListView.builder(
+        shrinkWrap: true, // ทำให้ ListView ขนาดเล็กลง
         itemCount: products.length,
-        itemBuilder: (ctx, i) => ListTile(
-          title: Text(products[i].name),
-          subtitle: Text(products[i].description),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Edit button
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  // Navigate to edit product screen
-                  Navigator.of(context).pushNamed(
-                    EditProductScreen.routeName, // Use the route name
-                    arguments: products[i].id, // Pass the product ID as an argument
-                  );
-                },
+        itemBuilder: (ctx, i) {
+          final product = products[i];
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: ListTile(
+              title: Text(product.name),
+              subtitle: Text(product.description),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text(
+                      '\$${product.price.toStringAsFixed(2)}',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        EditProductScreen.routeName,
+                        arguments: product.id,
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      _showDeleteConfirmationDialog(context, productsProvider, product.id);
+                    },
+                  ),
+                ],
               ),
-              // Delete button with confirmation dialog
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {
-                  // Show confirmation dialog before deleting
-                  _showDeleteConfirmationDialog(context, productsProvider, products[i].id);
-                },
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigate to add product screen
           Navigator.of(context).pushNamed(AddProductScreen.routeName);
         },
         child: Icon(Icons.add),
@@ -56,7 +66,6 @@ class ProductsListScreen extends StatelessWidget {
     );
   }
 
-  // Function to show the confirmation dialog
   void _showDeleteConfirmationDialog(BuildContext context, ProductsProvider productsProvider, String productId) {
     showDialog(
       context: context,
@@ -66,14 +75,12 @@ class ProductsListScreen extends StatelessWidget {
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              // Close the dialog
               Navigator.of(ctx).pop();
             },
             child: Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              // Perform the deletion and close the dialog
               productsProvider.deleteProduct(productId);
               Navigator.of(ctx).pop();
             },
